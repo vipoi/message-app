@@ -22,6 +22,10 @@ Message
 ## Api
 Third party package https://github.com/encode/django-rest-framework
 
+Signup
+* Create a user
+  `POST /signup`
+
 Messaging
 * Send a message to a user
   `POST /messages`
@@ -30,3 +34,8 @@ Messaging
 * Delete a specific message
   `DELETE /messages/:id`
 
+
+Extensions
+* Retrieve unread messages
+  `GET /messages?q=filter`
+* Soft delete users

@@ -16,11 +16,12 @@ Including another URLconf
 """
 from django.urls import include, path
 from rest_framework import routers
-from messageapp.views import SignupView
+from messageapp.views import MessageViewSet, SignupView
 
 router = routers.DefaultRouter()
+router.register(r'messages', MessageViewSet, basename='message')
 
 urlpatterns = [
     path('signup/', SignupView.as_view()),
-    path('/', include(router.urls)),
+    path('', include(router.urls))
 ]

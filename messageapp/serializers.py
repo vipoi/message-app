@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers
+from messageapp.models import Message
 
 
 class SignupSerializer(serializers.ModelSerializer):
@@ -35,3 +36,14 @@ class SignupSerializer(serializers.ModelSerializer):
 
         user.set_password(validated_data['password'])
         return user
+
+
+class MessageSerializer:
+    class Meta:
+        model = Message
+        fields = ['sender',
+                  'receiver',
+                  'content',
+                  'created_at',
+                  'updated_at',
+                  'deleted_at']
