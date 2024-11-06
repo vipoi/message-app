@@ -41,3 +41,16 @@ Create a superuser
 ```bash
 $ python manage.py createsuperuser
 ```
+
+
+Create a user account
+```bash
+$ curl -X POST http://localhost::8000/signup \
+-H "Content-Type: application/json" \
+-d '{
+  "username": "test",
+  "email": "test@example.com",
+  "password": "password",
+  "password_confirm": "password",
+}'
+```

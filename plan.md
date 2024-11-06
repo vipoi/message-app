@@ -20,9 +20,7 @@ Message
 * text
 
 ## Api
-
-Account creation and auth
-* use third party package - maybe https://github.com/encode/django-rest-framework
+Third party package https://github.com/encode/django-rest-framework
 
 Messaging
 * Send a message to a user
