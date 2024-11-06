@@ -27,9 +27,17 @@ $ pip install -r requirements.txt
 ## Running
 
 Start the external dependencies using docker compose. The first time this is run, docker will fetch the container
-images for postgresql and adminer. 
+images for postgresql.
 ```bash
-docker compose up
+$ docker compose up
 ```
 
+Migrate the database
+```bash
+$ python manage.py migrate
+```
 
+Create a superuser
+```bash
+$ python manage.py createsuperuser
+```
