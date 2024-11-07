@@ -45,6 +45,11 @@ First time, you'll need to migrate the database
 $ python manage.py migrate
 ```
 
+#### Running tests
+```bash
+$ python manage.py test
+```
+
 #### Starting the development server
 ```bash
 $ python manage.py runserver
