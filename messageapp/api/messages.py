@@ -1,45 +1,19 @@
 from typing import List
 
 from django.db.models import Q
-from ninja import Field, ModelSchema, Query, Router, Schema
-from pydantic import field_validator
+from ninja import Query, Router
 
+from messageapp.api.schemas import CreateMessageSchema, MessageFilterSchema, MessageSchema
 from messageapp.auth import BasicAuth
 from messageapp.models import Message, UserAccount
 
 router = Router(auth=BasicAuth())
 
 
-class CreateMessageSchema(Schema):
-    receiver: str
-    content: str
-
-    @field_validator('receiver')
-    @classmethod
-    def check_user_exist(cls, value):
-        if not UserAccount.objects.filter(username=value).exists():
-            raise ValueError("User does not exist")
-        return value
-
-
-class MessageSchema(ModelSchema):
-    sender: str = Field(None, alias="sender.username")
-    receiver: str = Field(None, alias="receiver.username")
-
-    class Meta:
-        model = Message
-        fields = ['content', 'created_at']
-
-
-class Filters(Schema):
-    limit: int = 100
-    offset: int = None
-    username: str = None
-
-
 @router.get("/", response=List[MessageSchema])
-def list_messages(request, filters: Query[Filters]):
-    messages = Message.objects.order_by('created_at')
+def list_messages(request, filters: Query[MessageFilterSchema]):
+    messages = Message.objects.order_by(
+        'deleted_at').filter(deleted_at__isnull=False)
 
     if filters.username is None:
         messages = messages.filter(

@@ -1,16 +1,11 @@
 from ninja import ModelSchema, Router, Schema
 from pydantic import field_validator, model_validator
 
+from messageapp.api.schemas import UserSchema
 from messageapp.auth import BasicAuth
 from messageapp.models import UserAccount
 
 router = Router()
-
-
-class UserSchema(ModelSchema):
-    class Meta:
-        model = UserAccount
-        fields = ['username', 'created_at']
 
 
 @router.get("/me/", auth=BasicAuth(), response=UserSchema)
