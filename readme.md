@@ -9,26 +9,26 @@ Ensure you have the following installed:
 
 Clone this repo and navigate to project root
 ```bash
-$ git clone git@github.com:vipoi/message-app.git
-$ cd message-app
+git clone git@github.com:vipoi/message-app.git
+cd message-app
 ```
 
 Create a new virtual environment
 ```bash
-$ python -m venv venv
+python -m venv venv
 ```
 
 Activate the virtual environment for this shell
 ```bash
-$ source venv/bin/activate
-$ which python
+source venv/bin/activate
+which python
 # path/to/project/venv/bin/python
 ```
 
 Install the requirements
 ```bash
 # Install package dependencies
-$ pip install -r requirements.txt
+pip install -r requirements.txt
 ```
 
 Start the database service using docker. 
@@ -42,17 +42,17 @@ For this demo app, database credentials are hard coded to the ones specified in 
 #### Running migrations
 First time, you'll need to migrate the database
 ```bash
-$ python manage.py migrate
+python manage.py migrate
 ```
 
 #### Running tests
 ```bash
-$ python manage.py test
+python manage.py test
 ```
 
 #### Starting the development server
 ```bash
-$ python manage.py runserver
+python manage.py runserver
 ```
 
 If everything went well, you should see a message similar to this one:
@@ -70,7 +70,7 @@ Quit the server with CONTROL-C.
 ### Accounts Api
 #### Create a user account
 ```bash
-$ curl -X POST http://localhost::8000/accounts/ \
+curl -X POST http://localhost::8000/accounts/ \
 -H "Content-Type: application/json" \
 -d '{
   "username": "my_username",
@@ -84,17 +84,17 @@ Endpoints in ne messages api are using basic auth for authentication. You can pr
 
 Get messages for your account
 ```bash
-$ curl -u user:pass http://127.0.0.1:8000/messages/
+curl -u user:pass http://127.0.0.1:8000/messages/
 ```
 
 Get messages to/from a specific user
 ```bash
-$ curl -u user:pass http://127.0.0.1:8000/messages?username=username
+curl -u user:pass http://127.0.0.1:8000/messages?username=username
 ```
 
 Get messages to/from a specific user, using start-stop index
 ```bash
-$ curl -u user:pass "http://127.0.0.1:8000/messages?username=username&offset=10&limit=100"
+curl -u user:pass "http://127.0.0.1:8000/messages?username=username&offset=10&limit=100"
 ```
 
 Get unread messages
@@ -109,7 +109,7 @@ Mark message as read
 
 Send a message to another account
 ```bash
-$ curl -X POST http://localhost::8000/messages/ \
+curl -X POST http://localhost::8000/messages/ \
 -H "Content-Type: application/json" \
 -d '{
   "receiver": "receiver_username",
