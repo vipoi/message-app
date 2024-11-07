@@ -10,11 +10,12 @@ router = Router()
 class UserSchema(ModelSchema):
     class Meta:
         model = UserAccount
-        fields = ['username', 'created_at', 'deleted_at']
+        fields = ['username', 'created_at']
 
 
 @router.get("/me/", auth=BasicAuth(), response=UserSchema)
 def get_current_account(request):
+    """Returns the authenticated user"""
     return request.auth
 
 
@@ -41,6 +42,7 @@ class SignupSchema(Schema):
 
 @router.post("/", response=UserSchema)
 def create_account(request, data: SignupSchema):
+    """Creates a new user"""
     user = UserAccount(username=data.username)
     user.set_password(data.password)
     user.save()

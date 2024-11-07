@@ -11,10 +11,10 @@ router = Router(auth=BasicAuth())
 
 
 class CreateMessageSchema(Schema):
-    username: str
+    receiver: str
     content: str
 
-    @field_validator('username')
+    @field_validator('receiver')
     @classmethod
     def check_user_exist(cls, value):
         if not UserAccount.objects.filter(username=value).exists():
@@ -59,7 +59,7 @@ def list_messages(request, filters: Query[Filters]):
 
 @router.post("/", response=MessageSchema)
 def create_message(request, data: CreateMessageSchema):
-    receiver = UserAccount.objects.get(username=data.username)
+    receiver = UserAccount.objects.get(username=data.receiver)
     message = Message.objects.create(
         content=data.content,
         receiver=receiver,

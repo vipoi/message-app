@@ -44,12 +44,46 @@ $ python manage.py createsuperuser
 
 Create a user account
 ```bash
-$ curl -X POST http://localhost::8000/signup \
+$ curl -X POST http://localhost::8000/accounts/ \
 -H "Content-Type: application/json" \
 -d '{
-  "username": "test",
-  "email": "test@example.com",
-  "password": "password",
+  "username": "my_username",
+  "password": "my_password",
   "password_confirm": "password",
 }'
+```
+
+Send a message to another account
+```bash
+$ curl -X POST http://localhost::8000/messages/ \
+-H "Content-Type: application/json" \
+-d '{
+  "receiver": "receiver_username",
+  "content": "My message",
+}'
+```
+
+Get messages for your account
+```bash
+$ curl -u user:pass http://127.0.0.1:8000/messages/
+```
+
+Get messages to/from a specific user
+```bash
+$ curl -u user:pass http://127.0.0.1:8000/messages?username=username
+```
+
+Get messages to/from a specific user, using start-stop index
+```bash
+$ curl -u user:pass "http://127.0.0.1:8000/messages?username=username&offset=10&limit=100"
+```
+
+Get unread messages
+```bash
+# TODO
+```
+
+Mark message as read
+```bash
+# TODO
 ```

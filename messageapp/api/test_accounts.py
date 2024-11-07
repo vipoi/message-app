@@ -21,7 +21,6 @@ class AccountTestPositive(TestCase):
 
         self.assertIsNotNone(json["created_at"])
         self.assertEqual(json["username"], "test_user")
-        self.assertEqual(json["deleted_at"], None)
 
     def test_me(self):
         create_test_user("test_user", "tekopp1234")
@@ -37,4 +36,3 @@ class AccountTestPositive(TestCase):
         json = response.json()
         self.assertIsNotNone(json["created_at"])
         self.assertEqual(json["username"], "test_user")
-        self.assertEqual(json["deleted_at"], None)

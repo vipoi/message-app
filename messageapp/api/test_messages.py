@@ -14,7 +14,7 @@ class MessagesTestPositive(TestCase):
         client = Client(router)
 
         response = client.post("/messages/", {
-            "username": "test_user_2",
+            "receiver": "test_user_2",
             "content": "hello",
         }, content_type='application/json', headers={
             **basic_auth_header("test_user_1", "tekopp1234"),
