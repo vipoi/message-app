@@ -14,14 +14,17 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.urls import include, path
-from rest_framework import routers
-from messageapp.views import MessageViewSet, SignupView
+from django.urls import path
+from ninja import NinjaAPI
+from messageapp.api.accounts import router as accounts_api
+from messageapp.api.messages import router as messages_api
 
-router = routers.DefaultRouter()
-router.register(r'messages', MessageViewSet, basename='message')
+
+api = NinjaAPI()
+api.add_router('/accounts/', accounts_api)
+api.add_router('/messages/', messages_api)
+
 
 urlpatterns = [
-    path('signup/', SignupView.as_view()),
-    path('', include(router.urls))
+    path('', api.urls)
 ]

@@ -42,7 +42,6 @@ Create a superuser
 $ python manage.py createsuperuser
 ```
 
-
 Create a user account
 ```bash
 $ curl -X POST http://localhost::8000/signup \

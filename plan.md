@@ -20,7 +20,7 @@ Message
 * text
 
 ## Api
-Third party package https://github.com/encode/django-rest-framework
+Django ninja
 
 Signup
 * Create a user
@@ -38,4 +38,3 @@ Messaging
 Extensions
 * Retrieve unread messages
   `GET /messages?q=filter`
-* Soft delete users
