@@ -16,9 +16,9 @@ Including another URLconf
 """
 from django.urls import path
 from ninja import NinjaAPI
+
 from messageapp.api.accounts import router as accounts_api
 from messageapp.api.messages import router as messages_api
-
 
 api = NinjaAPI()
 api.add_router('/accounts/', accounts_api)

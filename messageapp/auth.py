@@ -1,5 +1,5 @@
-from ninja.security import HttpBasicAuth
 from django.contrib import auth
+from ninja.security import HttpBasicAuth
 
 
 class BasicAuth(HttpBasicAuth):

@@ -1,5 +1,4 @@
 import base64
-from django.test import Client
 from messageapp.models import UserAccount
 
 

@@ -1,4 +1,5 @@
-from django.test import TestCase, Client
+from django.test import Client, TestCase
+
 from messageapp.api.accounts import router
 from messageapp.test.utils import basic_auth_header, create_test_user
 

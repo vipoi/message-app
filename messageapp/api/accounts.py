@@ -1,5 +1,6 @@
 from ninja import ModelSchema, Router, Schema
 from pydantic import field_validator, model_validator
+
 from messageapp.auth import BasicAuth
 from messageapp.models import UserAccount
 
