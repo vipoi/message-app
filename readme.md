@@ -70,12 +70,12 @@ Quit the server with CONTROL-C.
 ### Accounts Api
 #### Create a user account
 ```bash
-curl -X POST http://localhost::8000/accounts/ \
+curl -X POST "http://localhost:8000/accounts/" \
 -H "Content-Type: application/json" \
 -d '{
-  "username": "my_username",
-  "password": "my_password",
-  "password_confirm": "password",
+  "username": "user1",
+  "password": "tekopp1234",
+  "password_confirm": "tekopp1234"
 }'
 ```
 
@@ -84,17 +84,17 @@ Endpoints in ne messages api are using basic auth for authentication. You can pr
 
 Get messages for your account
 ```bash
-curl -u user:pass http://127.0.0.1:8000/messages/
+curl -u user1:tekopp1234 "http://localhost:8000/messages/"
 ```
 
 Get messages to/from a specific user
 ```bash
-curl -u user:pass http://127.0.0.1:8000/messages?username=username
+curl -u user1:tekopp1234 "http://localhost:8000/messages/?username=user2"
 ```
 
-Get messages to/from a specific user, using start-stop index
+Get messages to/from a specific user, using offset and limit
 ```bash
-curl -u user:pass "http://127.0.0.1:8000/messages?username=username&offset=10&limit=100"
+curl -u user1:tekopp1234 "http://localhost:8000/messages/?username=user2&offset=10&limit=100"
 ```
 
 Get unread messages
@@ -109,11 +109,11 @@ Mark message as read
 
 Send a message to another account
 ```bash
-curl -X POST http://localhost::8000/messages/ \
+curl -u user1:tekopp1234 -X POST "http://localhost:8000/messages/" \
 -H "Content-Type: application/json" \
 -d '{
-  "receiver": "receiver_username",
-  "content": "My message",
+  "receiver": "user2",
+  "content": "My message"
 }'
 ```
 
