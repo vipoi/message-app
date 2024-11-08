@@ -35,7 +35,6 @@ Start the database service using docker.
 ```bash
 docker compose up -d
 ```
-For this demo app, database credentials are hard coded to the ones specified in docker-compose.yml
 
 ## Running
 
@@ -119,3 +118,4 @@ curl -u user1:tekopp1234 -X POST "http://localhost:8000/messages/" \
 
 Possible extensions:
 * Authorization model with object-level permissions
+* Linting and style guide enforcements with [flake8](https://flake8.pycqa.org/en/latest/)

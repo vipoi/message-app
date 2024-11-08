@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -77,11 +78,11 @@ WSGI_APPLICATION = 'messageapp.wsgi.application'
 DATABASES = {
     'default': {
         "ENGINE": "django.db.backends.postgresql",
-        "USER": 'postgres',
-        "PASSWORD": 'postgres',
-        "NAME": 'messageapp',
-        "HOST": "localhost",
-        "PORT": 5432,
+        "USER": os.getenv('POSTGRES_USER', 'postgres'),
+        "PASSWORD": os.getenv('POSTGRES_PASSWORD', 'postgres'),
+        "NAME": os.getenv('POSTGRES_NAME', 'messageapp'),
+        "HOST": os.getenv('POSTGRES_HOST', "localhost"),
+        "PORT": os.getenv('POSTGRES_HOST', 5432),
     }
 }
 
