@@ -1,4 +1,4 @@
-from datetime import datetime
+from django.utils import timezone
 from django.test import Client, TestCase
 
 from messageapp.api.accounts import router
@@ -91,7 +91,7 @@ class MessagesTestPositive(TestCase):
         user_1 = create_test_user("test_user_1", "tekopp1234")
         user_2 = create_test_user("test_user_2", "tekopp1234")
 
-        create_test_message(user_2, user_1, read_at=datetime.now())
+        create_test_message(user_2, user_1, read_at=timezone.now())
         message_2 = create_test_message(user_2, user_1)
 
         client = Client(router)

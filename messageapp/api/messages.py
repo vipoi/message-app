@@ -1,4 +1,4 @@
-from datetime import datetime
+from django.utils import timezone
 from typing import List
 
 from django.db.models import Q
@@ -65,7 +65,7 @@ def mark_as_read(request, message_id: int):
     count = Message.objects.filter(
         id=message_id,
         receiver=request.auth
-    ).update(read_at=datetime.now())
+    ).update(read_at=timezone.now())
 
     if count == 0:
         return 404, None
