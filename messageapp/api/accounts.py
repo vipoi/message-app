@@ -1,29 +1,27 @@
 from ninja import ModelSchema, Router, Schema
 from pydantic import field_validator, model_validator
 
-from messageapp.api.schemas import UserSchema
+from messageapp.api.schemas import AccountSchema
 from messageapp.auth import BasicAuth
 from messageapp.models import UserAccount
 
 router = Router()
 
 
-@router.get("/me/", auth=BasicAuth(), response=UserSchema)
+@router.get("/me/", auth=BasicAuth(), response=AccountSchema)
 def get_current_account(request):
     """Returns the authenticated user"""
     return request.auth
 
 
-class SignupSchema(Schema):
+class CreateAccountSchema(Schema):
     username: str
     password: str
     password_confirm: str
 
     @model_validator(mode='after')
     def check_unique(self):
-        pw1 = self.password
-        pw2 = self.password_confirm
-        if pw1 is not None and pw2 is not None and pw1 != pw2:
+        if self.password != self.password_confirm:
             raise ValueError('passwords do not match')
         return self
 
@@ -35,8 +33,8 @@ class SignupSchema(Schema):
         return value
 
 
-@router.post("/", response=UserSchema)
-def create_account(request, data: SignupSchema):
+@router.post("/", response=AccountSchema)
+def create_account(request, data: CreateAccountSchema):
     """Creates a new user"""
     user = UserAccount(username=data.username)
     user.set_password(data.password)

@@ -3,7 +3,7 @@ from typing import List
 from django.db.models import Q
 from ninja import Query, Router
 
-from messageapp.api.schemas import CreateMessageSchema, MessageFilterSchema, MessageSchema
+from messageapp.api.schemas import CreateMessageSchema, MessageFilterSchema, MessageSchema, NotFoundSchema
 from messageapp.auth import BasicAuth
 from messageapp.models import Message, UserAccount
 
@@ -42,3 +42,16 @@ def create_message(request, data: CreateMessageSchema):
     message.save()
 
     return message
+
+
+@router.delete("/{message_id}", response={204: None, 404: NotFoundSchema})
+def delete_message(request, message_id: int):
+    count, _ = Message.objects.filter(
+        id=message_id,
+        sender=request.auth
+    ).delete()
+
+    if count == 0:
+        return 404, None
+
+    return 204, None

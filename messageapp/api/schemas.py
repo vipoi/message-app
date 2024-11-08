@@ -4,7 +4,7 @@ from pydantic import field_validator
 from messageapp.models import Message, UserAccount
 
 
-class UserSchema(ModelSchema):
+class AccountSchema(ModelSchema):
     class Meta:
         model = UserAccount
         fields = ['username', 'created_at']
@@ -35,3 +35,7 @@ class MessageFilterSchema(Schema):
     limit: int = 100
     offset: int = None
     username: str = None
+
+
+class NotFoundSchema(Schema):
+    detail: str = "Not Found"
