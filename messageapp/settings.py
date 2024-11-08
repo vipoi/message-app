@@ -82,7 +82,7 @@ DATABASES = {
         "PASSWORD": os.getenv('POSTGRES_PASSWORD', 'postgres'),
         "NAME": os.getenv('POSTGRES_NAME', 'messageapp'),
         "HOST": os.getenv('POSTGRES_HOST', "localhost"),
-        "PORT": os.getenv('POSTGRES_HOST', 5432),
+        "PORT": os.getenv('POSTGRES_PORT', 5432),
     }
 }
 
