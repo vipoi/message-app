@@ -20,7 +20,7 @@ class MessagesTestPositive(TestCase):
             **basic_auth_header("test_user_1", "tekopp1234"),
         },)
 
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 201)
 
     def test_list_messages(self):
         user_1 = create_test_user("test_user_1", "tekopp1234")

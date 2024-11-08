@@ -11,7 +11,7 @@ from messageapp.models import Message, UserAccount
 router = Router(auth=BasicAuth())
 
 
-@router.get("/", response=List[MessageSchema])
+@router.get("/", response={200: List[MessageSchema]})
 def list_messages(request, filters: Query[MessageFilterSchema]):
     messages = Message.objects.order_by(
         'created_at').filter(deleted_at__isnull=True)
@@ -31,10 +31,10 @@ def list_messages(request, filters: Query[MessageFilterSchema]):
 
     messages = messages[filters.offset:filters.offset+filters.limit]
 
-    return messages
+    return 200, messages
 
 
-@router.post("/", response=MessageSchema)
+@router.post("/", response={201: MessageSchema})
 def create_message(request, data: CreateMessageSchema):
     receiver = UserAccount.objects.get(username=data.receiver)
     message = Message.objects.create(
@@ -44,7 +44,7 @@ def create_message(request, data: CreateMessageSchema):
     )
     message.save()
 
-    return message
+    return 201, message
 
 
 @router.delete("/{message_id}", response={204: None, 404: NotFoundSchema})

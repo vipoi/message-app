@@ -8,7 +8,7 @@ from messageapp.models import UserAccount
 router = Router()
 
 
-@router.get("/me/", auth=BasicAuth(), response=AccountSchema)
+@router.get("/me/", auth=BasicAuth(), response={200: AccountSchema})
 def get_current_account(request):
     """Returns the authenticated user"""
     return request.auth
@@ -33,10 +33,10 @@ class CreateAccountSchema(Schema):
         return value
 
 
-@router.post("/", response=AccountSchema)
+@router.post("/", response={201: AccountSchema})
 def create_account(request, data: CreateAccountSchema):
     """Creates a new user"""
     user = UserAccount(username=data.username)
     user.set_password(data.password)
     user.save()
-    return user
+    return 201, user
