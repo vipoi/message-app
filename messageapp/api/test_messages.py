@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.test import Client, TestCase
 
 from messageapp.api.accounts import router
@@ -58,7 +59,7 @@ class MessagesTestPositive(TestCase):
 
         self.assertEqual(response.status_code, 200)
 
-    def test_list_filter(self):
+    def test_list_messages_filter(self):
         user_1 = create_test_user("test_user_1", "tekopp1234")
         user_2 = create_test_user("test_user_2", "tekopp1234")
         user_3 = create_test_user("test_user_3", "tekopp1234")
@@ -78,11 +79,32 @@ class MessagesTestPositive(TestCase):
         },)
 
         json = response.json()
+
         self.assertEqual(len(json), 2)
 
         self.assertEqual(json[0]['id'], user_3_message_2.id)
         self.assertEqual(json[1]['id'], user_3_message_3.id)
 
+        self.assertEqual(response.status_code, 200)
+
+    def test_list_messages_filter_read(self):
+        user_1 = create_test_user("test_user_1", "tekopp1234")
+        user_2 = create_test_user("test_user_2", "tekopp1234")
+
+        create_test_message(user_2, user_1, read_at=datetime.now())
+        message_2 = create_test_message(user_2, user_1)
+
+        client = Client(router)
+
+        response = client.get("/messages/?only_unread=true&username=test_user_2", content_type='application/json', headers={
+            **basic_auth_header("test_user_1", "tekopp1234"),
+        },)
+
+        json = response.json()
+
+        self.assertEqual(len(json), 1)
+
+        self.assertEqual(json[0]['id'], message_2.id)
         self.assertEqual(response.status_code, 200)
 
     def test_delete_message(self):
@@ -142,7 +164,7 @@ class MessagesTestNegative(TestCase):
 
         self.assertEqual(response.status_code, 404)
 
-    def test_mark_unowned_message_returns_404(self):
+    def test_mark_unowned_message_as_read_returns_404(self):
         user_1 = create_test_user("test_user_1", "tekopp1234")
         user_2 = create_test_user("test_user_2", "tekopp1234")
         create_test_user("test_user_3", "tekopp1234")

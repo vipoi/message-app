@@ -21,11 +21,12 @@ def create_test_user(username: str, password: str):
     return user
 
 
-def create_test_message(sender: UserAccount, receiver: UserAccount, content: str = "TestMessage"):
+def create_test_message(sender: UserAccount, receiver: UserAccount, content: str = "TestMessage", **kwargs):
     """Creates a new message"""
     message = Message.objects.create(
         sender=sender,
         receiver=receiver,
-        content=content
+        content=content,
+        **kwargs
     )
     return message

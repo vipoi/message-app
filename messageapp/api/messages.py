@@ -26,6 +26,9 @@ def list_messages(request, filters: Query[MessageFilterSchema]):
             | (Q(sender=request.auth) & Q(receiver__username=filters.username))
         )
 
+    if filters.only_unread:
+        messages = messages.filter(read_at=None)
+
     messages = messages[filters.offset:filters.offset+filters.limit]
 
     return messages

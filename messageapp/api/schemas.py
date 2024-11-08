@@ -35,6 +35,7 @@ class MessageFilterSchema(Schema):
     limit: int = 100
     offset: int = 0
     username: str = None
+    only_unread: bool = False
 
 
 class NotFoundSchema(Schema):
