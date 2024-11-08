@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import List
 
 from django.db.models import Q
@@ -50,6 +51,19 @@ def delete_message(request, message_id: int):
         id=message_id,
         sender=request.auth
     ).delete()
+
+    if count == 0:
+        return 404, None
+
+    return 204, None
+
+
+@router.patch("/{message_id}/mark_as_read", response={204: None, 404: NotFoundSchema})
+def mark_as_read(request, message_id: int):
+    count = Message.objects.filter(
+        id=message_id,
+        receiver=request.auth
+    ).update(read_at=datetime.now())
 
     if count == 0:
         return 404, None

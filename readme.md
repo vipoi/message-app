@@ -117,3 +117,5 @@ curl -u user1:tekopp1234 -X POST "http://localhost:8000/messages/" \
 }'
 ```
 
+Possible extensions:
+* Authorization model with object-level permissions
