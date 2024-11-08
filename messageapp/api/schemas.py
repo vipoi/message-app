@@ -33,7 +33,7 @@ class MessageSchema(ModelSchema):
 
 class MessageFilterSchema(Schema):
     limit: int = 100
-    offset: int = None
+    offset: int = 0
     username: str = None
 
 

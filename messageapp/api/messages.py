@@ -14,7 +14,7 @@ router = Router(auth=BasicAuth())
 @router.get("/", response=List[MessageSchema])
 def list_messages(request, filters: Query[MessageFilterSchema]):
     messages = Message.objects.order_by(
-        'deleted_at').filter(deleted_at__isnull=False)
+        'created_at').filter(deleted_at__isnull=True)
 
     if filters.username is None:
         messages = messages.filter(
@@ -26,8 +26,7 @@ def list_messages(request, filters: Query[MessageFilterSchema]):
             | (Q(sender=request.auth) & Q(receiver__username=filters.username))
         )
 
-    if filters.limit is not None and filters.offset is not None:
-        messages = messages[filters.offset:filters.offset+filters.limit]
+    messages = messages[filters.offset:filters.offset+filters.limit]
 
     return messages
 

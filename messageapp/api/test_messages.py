@@ -2,7 +2,7 @@ from django.test import Client, TestCase
 
 from messageapp.api.accounts import router
 from messageapp.models import Message
-from messageapp.test.utils import basic_auth_header, create_test_user
+from messageapp.test.utils import basic_auth_header, create_test_message, create_test_user
 
 
 class MessagesTestPositive(TestCase):
@@ -21,15 +21,48 @@ class MessagesTestPositive(TestCase):
 
         self.assertEqual(response.status_code, 200)
 
+    def test_list_messages(self):
+        user_1 = create_test_user("test_user_1", "tekopp1234")
+        user_2 = create_test_user("test_user_2", "tekopp1234")
+
+        message_1 = create_test_message(user_1, user_2, "First Message")
+        message_2 = create_test_message(user_2, user_1, "Second Message")
+        message_3 = create_test_message(user_1, user_2, "Third Message")
+
+        client = Client(router)
+
+        response = client.get("/messages/", content_type='application/json', headers={
+            **basic_auth_header("test_user_1", "tekopp1234"),
+        },)
+
+        json = response.json()
+        self.assertEqual(len(json), 3)
+
+        self.assertEqual(json[0]['sender'], "test_user_1")
+        self.assertEqual(json[0]['receiver'], "test_user_2")
+        self.assertEqual(json[0]['content'], "First Message")
+        self.assertEqual(json[0]['id'], message_1.id)
+        self.assertIsNotNone(json[0]['created_at'])
+
+        self.assertEqual(json[1]['sender'], "test_user_2")
+        self.assertEqual(json[1]['receiver'], "test_user_1")
+        self.assertEqual(json[1]['content'], "Second Message")
+        self.assertEqual(json[1]['id'], message_2.id)
+        self.assertIsNotNone(json[1]['created_at'])
+
+        self.assertEqual(json[2]['sender'], "test_user_1")
+        self.assertEqual(json[2]['receiver'], "test_user_2")
+        self.assertEqual(json[2]['content'], "Third Message")
+        self.assertEqual(json[2]['id'], message_3.id)
+        self.assertIsNotNone(json[2]['created_at'])
+
+        self.assertEqual(response.status_code, 200)
+
     def test_delete_message(self):
         user_1 = create_test_user("test_user_1", "tekopp1234")
         user_2 = create_test_user("test_user_2", "tekopp1234")
 
-        message = Message.objects.create(
-            sender=user_1,
-            receiver=user_2,
-            content="Test"
-        )
+        message = create_test_message(user_1, user_2)
 
         client = Client(router)
 
@@ -44,11 +77,7 @@ class MessagesTestPositive(TestCase):
         user_1 = create_test_user("test_user_1", "tekopp1234")
         user_2 = create_test_user("test_user_2", "tekopp1234")
 
-        message = Message.objects.create(
-            sender=user_1,
-            receiver=user_2,
-            content="Test"
-        )
+        message = create_test_message(user_1, user_2)
 
         client = Client(router)
 
@@ -77,11 +106,7 @@ class MessagesTestNegative(TestCase):
         user_1 = create_test_user("test_user_1", "tekopp1234")
         user_2 = create_test_user("test_user_2", "tekopp1234")
 
-        message = Message.objects.create(
-            sender=user_1,
-            receiver=user_2,
-            content="Test"
-        )
+        message = create_test_message(user_1, user_2)
         client = Client(router)
 
         response = client.delete(f"/messages/{message.pk}", headers={
@@ -94,12 +119,7 @@ class MessagesTestNegative(TestCase):
         user_1 = create_test_user("test_user_1", "tekopp1234")
         user_2 = create_test_user("test_user_2", "tekopp1234")
         create_test_user("test_user_3", "tekopp1234")
-
-        message = Message.objects.create(
-            sender=user_1,
-            receiver=user_2,
-            content="Test"
-        )
+        message = create_test_message(user_1, user_2)
 
         client = Client(router)
 
