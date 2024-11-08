@@ -28,7 +28,7 @@ class MessageSchema(ModelSchema):
 
     class Meta:
         model = Message
-        fields = ['id', 'content', 'created_at']
+        fields = ['id', 'content', 'read_at', 'created_at']
 
 
 class MessageFilterSchema(Schema):

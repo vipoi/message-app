@@ -63,10 +63,14 @@ Starting development server at http://127.0.0.1:8000/
 Quit the server with CONTROL-C.
 ```
 
-
 ## Api Usage
 
-### Accounts Api
+Visit [http://localhost:8000/docs](http://localhost:8000/openapi.json) to view the generated swagger documentation. You may also download the OpenAPI spec at [http://localhost:8000/openapi.json](http://localhost:8000/openapi.json) and import it into postman, insomnia or other api tool with OpenApi support.
+
+The api uses basic auth for authentication, 
+
+## Curl Examples
+
 #### Create a user account
 ```bash
 curl -X POST "http://localhost:8000/accounts/" \
@@ -78,32 +82,19 @@ curl -X POST "http://localhost:8000/accounts/" \
 }'
 ```
 
-### Messages Api
-Endpoints in ne messages api are using basic auth for authentication. You can provide your credentials to curl using the user-flag, like so: `-u user:pass`
-
-Get messages for your account
+#### Get messages for your account
 ```bash
 curl -u user1:tekopp1234 "http://localhost:8000/messages/"
 ```
 
-Get messages to/from a specific user
+#### Get messages to/from a specific user
 ```bash
 curl -u user1:tekopp1234 "http://localhost:8000/messages/?username=user2"
 ```
 
-Get messages to/from a specific user, using offset and limit
+#### Get messages to/from a specific user, using offset and limit
 ```bash
 curl -u user1:tekopp1234 "http://localhost:8000/messages/?username=user2&offset=10&limit=100"
-```
-
-Get unread messages
-```bash
-# Not implemented
-```
-
-Mark message as read
-```bash
-# Not implemented
 ```
 
 Send a message to another account
@@ -116,6 +107,7 @@ curl -u user1:tekopp1234 -X POST "http://localhost:8000/messages/" \
 }'
 ```
 
-Possible extensions:
+## Extensions:
 * Authorization model with object-level permissions
-* Linting and style guide enforcements with [flake8](https://flake8.pycqa.org/en/latest/)
+* Linting and style guide enforcements
+* Simple client application
