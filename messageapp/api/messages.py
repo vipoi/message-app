@@ -60,7 +60,7 @@ def delete_message(request, message_id: int):
     return 204, None
 
 
-@router.patch("/{message_id}/mark_as_read", response={204: None, 404: NotFoundSchema})
+@router.patch("/{message_id}/read", response={204: None, 404: NotFoundSchema})
 def mark_as_read(request, message_id: int):
     count = Message.objects.filter(
         id=message_id,

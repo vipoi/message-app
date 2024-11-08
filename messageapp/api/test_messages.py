@@ -122,7 +122,7 @@ class MessagesTestPositive(TestCase):
         self.assertEqual(response.status_code, 204)
         self.assertTrue(not Message.objects.filter(id=message.pk).exists())
 
-    def test_mark_as_read(self):
+    def test_read(self):
         user_1 = create_test_user("test_user_1", "tekopp1234")
         user_2 = create_test_user("test_user_2", "tekopp1234")
 
@@ -130,7 +130,7 @@ class MessagesTestPositive(TestCase):
 
         client = Client(router)
 
-        response = client.patch(f"/messages/{message.id}/mark_as_read", headers={
+        response = client.patch(f"/messages/{message.id}/read", headers={
             **basic_auth_header("test_user_2", "tekopp1234"),
         })
 
