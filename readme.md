@@ -105,8 +105,3 @@ curl -u user1:tekopp1234 -X POST "http://localhost:8000/messages/" \
   "content": "My message"
 }'
 ```
-
-## Extensions:
-* Authorization model with object-level permissions
-* Linting and style guide enforcements
-* Simple client application
