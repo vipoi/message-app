@@ -58,6 +58,33 @@ class MessagesTestPositive(TestCase):
 
         self.assertEqual(response.status_code, 200)
 
+    def test_list_filter(self):
+        user_1 = create_test_user("test_user_1", "tekopp1234")
+        user_2 = create_test_user("test_user_2", "tekopp1234")
+        user_3 = create_test_user("test_user_3", "tekopp1234")
+
+        create_test_message(user_2, user_1)
+        create_test_message(user_1, user_2)
+        create_test_message(user_2, user_1)
+
+        create_test_message(user_3, user_1)
+        user_3_message_2 = create_test_message(user_1, user_3)
+        user_3_message_3 = create_test_message(user_1, user_3)
+
+        client = Client(router)
+
+        response = client.get("/messages/?limit=2&offset=1&username=test_user_3", content_type='application/json', headers={
+            **basic_auth_header("test_user_1", "tekopp1234"),
+        },)
+
+        json = response.json()
+        self.assertEqual(len(json), 2)
+
+        self.assertEqual(json[0]['id'], user_3_message_2.id)
+        self.assertEqual(json[1]['id'], user_3_message_3.id)
+
+        self.assertEqual(response.status_code, 200)
+
     def test_delete_message(self):
         user_1 = create_test_user("test_user_1", "tekopp1234")
         user_2 = create_test_user("test_user_2", "tekopp1234")

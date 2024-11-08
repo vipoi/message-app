@@ -21,8 +21,7 @@ python -m venv venv
 Activate the virtual environment for this shell
 ```bash
 source venv/bin/activate
-which python
-# path/to/project/venv/bin/python
+which python # Should show path/to/project/venv/bin/python
 ```
 
 Install the requirements
